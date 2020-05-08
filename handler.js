@@ -41,11 +41,8 @@ function generateError(code, err) {
 
 function generateEmailParams(body) {
   const { email, name, checkIn, checkOut } = JSON.parse(body);
-  console.log(email, name, message);
   if (!(email && name && message)) {
-    throw new Error(
-      "Missing parameters! Make sure to add parameters 'email', 'name', 'message'."
-    );
+    throw new Error('Missing parameters! Make sure to add all parameters.');
   }
 
   return {
@@ -58,12 +55,8 @@ function generateEmailParams(body) {
           Charset: 'UTF8',
           Data: Mustache.render(emailTemplate, {
             email,
-            name,
-            phone,
-            message: `<p>
-              ${message
-                .replace(/\n{2,}/g, '</p><p>')
-                .replace(/\n/g, '<br>')}</p>`,
+            checkIn,
+            checkOut,
           }),
         },
       },
