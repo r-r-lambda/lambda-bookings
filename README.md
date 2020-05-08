@@ -1,1 +1,1 @@
-api-integration
+wci-contact-form-api
