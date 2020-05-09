@@ -1,37 +1,44 @@
-const emailConfig = require("../config/email-config");
-const Mustache = require('mustache');
-const emailTemplate = fs.readFileSync(
-    path.resolve(__dirname, 'email.html'),
-    'utf8'
-  );
-const sendEmailBL = async  (data)=>{
-    const { checkin, checkout, email, name, id_room } = JSON.parse(data);
-        if (!(checkIn && checkOut && email && name && id_room)) {
-        throw new Error('Missing parameters! Make sure to add all parameters.');
-            }
-    return {
-    Source: myEmail,
-    Destination: { ToAddresses: [myEmail] },
-    ReplyToAddresses: [email],
-    Message: {
-      Body: {
-        Html: {
-          Charset: 'UTF8',
-          Data: Mustache.render(emailTemplate, {
-            checkin,
-            checkout,
-            email,
-            name,
-            id_room,
-          }),
-        },
-      },
-      Subject: {
-        Charset: 'UTF-8',
-        Data: `You received a message from ${myDomain}!`,
-      },
-    },
-  };
-}
+const emailConfig = require('../config/email-config');
+const PropertyRequiedError = require('../errors/property-required-error');
+const EmailError = require('../errors/email-error');
+
+const sendEmailBL = async (data) => {
+  const { checkin, checkout, email, name, id_room } = data;
+
+  if (!(checkin && checkout && email && name && id_room)) {
+    throw new PropertyRequiedError(
+      'Error al enviar el correo de notificación.'
+    );
+  }
+
+  try {
+    const sendInfo = await emailConfig.sendMail({
+      from: '"Rest & Rooms" <fernando.areiza@udea.edu.co>', // sender address
+      to: email, // list of receivers
+      subject: 'Confirmación de Booking - Rest & Rooms ✔', // Subject line
+      text: '', // plain text body
+      html: `
+        <p>
+          Estimado ${name} le informamos que su reserva en Rest & Rooms <br>
+          queda confirmada con la siguiente información:
+        <p>
+
+        <p>
+          <strong>Checkin:</strong> ${checkin} <br>
+          <strong>Checkout:</strong> ${checkout} <br>
+          <strong>Id de reserva:</strong> ${id_room}
+        </p>
+
+        Rest & Rooms le desea un feliz estancia.
+      `, // html body
+    });
+
+    console.log(sendInfo);
+
+    return sendInfo;
+  } catch (error) {
+    throw new EmailError(error);
+  }
+};
 
 module.exports = sendEmailBL;
