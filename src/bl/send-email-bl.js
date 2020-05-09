@@ -29,7 +29,7 @@ const sendEmailBL = async (data) => {
           <strong>Id de reserva:</strong> ${id_booking}
         </p>
 
-        Rest & Rooms le desea un feliz estancia.
+        Rest & Rooms le desea una feliz estancia.
       `, // html body
     });
 
