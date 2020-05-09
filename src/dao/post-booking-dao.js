@@ -2,7 +2,7 @@ const pool = require('../config/db-config');
 
 const DatabaseError = require('../errors/database-error');
 
-const getQuoteDao = async (id) => {
+const postBookingDao = async (data) => {
   const poolPromise = pool.promise();
 
   let result;
@@ -11,8 +11,8 @@ const getQuoteDao = async (id) => {
     [
       result,
     ] = await poolPromise.query(
-      'SELECT id, quote, image FROM quote WHERE id = ?',
-      [id]
+      'INSERT  INTO booking (checkin, checkout, email, name, id_room) VALUES (data.checkin, data.checkout, data.email, data.name, data.id_room) '
+
     );
   } catch (error) {
     throw new DatabaseError(error);
@@ -21,4 +21,4 @@ const getQuoteDao = async (id) => {
   return result[0] || null;
 };
 
-module.exports = getQuoteDao;
+module.exports = postBookingDao;
