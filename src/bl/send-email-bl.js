@@ -3,9 +3,9 @@ const PropertyRequiedError = require('../errors/property-required-error');
 const EmailError = require('../errors/email-error');
 
 const sendEmailBL = async (data) => {
-  const { checkin, checkout, email, name, id_room } = data;
+  const { checkin, checkout, email, name, id_room, id_booking } = data;
 
-  if (!(checkin && checkout && email && name && id_room)) {
+  if (!(checkin && checkout && email && name && id_room && id_booking)) {
     throw new PropertyRequiedError(
       'Error al enviar el correo de notificación.'
     );
@@ -26,7 +26,7 @@ const sendEmailBL = async (data) => {
         <p>
           <strong>Checkin:</strong> ${checkin} <br>
           <strong>Checkout:</strong> ${checkout} <br>
-          <strong>Id de reserva:</strong> ${id_room}
+          <strong>Id de reserva:</strong> ${id_booking}
         </p>
 
         Rest & Rooms le desea un feliz estancia.
