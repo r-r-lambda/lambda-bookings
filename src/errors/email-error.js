@@ -1,7 +1,7 @@
-class DatabaseError extends Error {
+class EmailError extends Error {
   constructor(cause) {
-    super('Error de base de datos');
-    this.name = 'DatabaseError';
+    super('Error al notificar el booking.');
+    this.name = 'EmailError';
     this.error = cause.message;
     this.status = 500;
 
@@ -17,4 +17,4 @@ class DatabaseError extends Error {
   }
 }
 
-module.exports = DatabaseError;
+module.exports = EmailError;

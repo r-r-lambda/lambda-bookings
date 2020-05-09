@@ -1,9 +1,9 @@
 const express = require('express');
 
-const getRooms = require('./services/get-rooms');
+const createBooking = require('./services/create-booking');
 
 const router = express.Router();
 
-router.get('/rooms', getRooms);
+router.post('/booking', createBooking);
 
 module.exports = router;
