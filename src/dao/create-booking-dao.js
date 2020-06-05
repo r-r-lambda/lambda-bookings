@@ -1,5 +1,6 @@
-const pool = require('../config/db-config');
+const moment = require('moment');
 
+const pool = require('../config/db-config');
 const DatabaseError = require('../errors/database-error');
 const NotFoundError = require('../errors/not-found-error');
 
@@ -9,6 +10,11 @@ const createBookingDao = async (data) => {
   let result;
 
   const { checkin, checkout, email, name, id_room } = data;
+
+  const startDate = moment(new Date(checkin));
+  const endDate = moment(new Date(checkout));
+
+  const days = endDate.diff(startDate, 'days');
 
   let connection;
   try {
@@ -25,7 +31,7 @@ const createBookingDao = async (data) => {
       throw new NotFoundError('No fue posible realizar el booking');
     }
 
-    let total_price = room[0].price;
+    let total_price = room[0].price * days;
 
     [result] = await connection.query(
       `INSERT INTO booking 
