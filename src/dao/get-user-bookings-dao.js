@@ -1,5 +1,6 @@
-const pool = require('../config/db-config');
+const moment = require('moment');
 
+const pool = require('../config/db-config');
 const DatabaseError = require('../errors/database-error');
 
 const getUserBookingsDao = async (userEmail) => {
@@ -23,6 +24,9 @@ const getUserBookingsDao = async (userEmail) => {
     );
 
     for (let room of rooms) {
+      room.checkin = moment(room.checkin).format('YYYY-MM-DD');
+      room.checkout = moment(room.checkout).format('YYYY-MM-DD');
+
       const [location] = await connection.query(
         `SELECT l.latitude, l.longitude, c.name, c.code
         FROM location as l
