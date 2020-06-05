@@ -12,7 +12,7 @@ const getUserBookingsDao = async (userEmail) => {
     connection = await poolPromise.getConnection();
 
     [rooms] = await connection.query(
-      `SELECT r.id, r.property_name, r.price, r.currency, r.rating, r.agency_id, i.url as thumbnail, b.id_booking, b.checkin, b.checkout
+      `SELECT r.id, r.property_name, r.price, r.currency, r.rating, r.agency_id, i.url as thumbnail, b.id_booking, b.checkin, b.checkout, b.total_price
       FROM booking as b
       INNER JOIN room as r ON (r.id = b.id_room)
       INNER JOIN room_images as i ON (i.room_id = r.id AND i.is_thumbnail = 1)
