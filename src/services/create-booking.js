@@ -8,7 +8,7 @@ const createBooking = async (req, res, next) => {
     const { checkin, checkout, email, name, id_room } = req.body;
 
     if (!checkin) {
-      throw new PropertyRequiedError('El parámetro checking es requerido');
+      throw new PropertyRequiedError('El parámetro checkin es requerido');
     }
 
     if (!checkout) {
