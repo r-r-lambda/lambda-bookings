@@ -3,6 +3,7 @@ const getUserBookingsDao = require('../dao/get-user-bookings-dao');
 
 const getUserBookings = async (req, res, next) => {
   try {
+    console.log(req);
     const userEmail = req.params.id || null;
 
     if (!userEmail) {
